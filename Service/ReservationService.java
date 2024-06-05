@@ -67,4 +67,8 @@ public class ReservationService {
             }
         }
     }
+    // Method to get all rooms
+    public Collection<IRoom> getAllRooms() {
+        return new ArrayList<>(roomMap.values());
+    }
 }
