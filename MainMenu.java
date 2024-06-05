@@ -1,4 +1,5 @@
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import api.HotelResource;
 import model.Customer;
@@ -13,6 +14,7 @@ public class MainMenu {
 
     private static final HotelResource hotelResource = HotelResource.getInstance();
     private static final Scanner scanner = new Scanner(System.in);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void main(String[] args) {
         boolean exit = false;
@@ -68,11 +70,25 @@ public class MainMenu {
             return;
         }
 
-        System.out.print("Enter check-in date (yyyy-MM-dd): ");
-        Date checkInDate = new Date(scanner.nextLine());
+        Date checkInDate = null;
+        Date checkOutDate = null;
+        while (checkInDate == null) {
+            try {
+                System.out.print("Enter check-in date (yyyy-MM-dd): ");
+                checkInDate = dateFormat.parse(scanner.nextLine());
+            } catch (ParseException e) {
+                System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+            }
+        }
 
-        System.out.print("Enter check-out date (yyyy-MM-dd): ");
-        Date checkOutDate = new Date(scanner.nextLine());
+        while (checkOutDate == null) {
+            try {
+                System.out.print("Enter check-out date (yyyy-MM-dd): ");
+                checkOutDate = dateFormat.parse(scanner.nextLine());
+            } catch (ParseException e) {
+                System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+            }
+        }
 
         Reservation reservation = hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
         if (reservation != null) {
