@@ -14,25 +14,29 @@ public class AdminMenu {
         boolean exit = false;
         while (!exit) {
             printAdminMenu();
-            int selection = Integer.parseInt(scanner.nextLine());
-            switch (selection) {
-                case 1:
-                    seeAllCustomers();
-                    break;
-                case 2:
-                    seeAllRooms();
-                    break;
-                case 3:
-                    seeAllReservations();
-                    break;
-                case 4:
-                    addARoom();
-                    break;
-                case 5:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Please select a valid option.");
+            try {
+                int selection = Integer.parseInt(scanner.nextLine());
+                switch (selection) {
+                    case 1:
+                        seeAllCustomers();
+                        break;
+                    case 2:
+                        seeAllRooms();
+                        break;
+                    case 3:
+                        seeAllReservations();
+                        break;
+                    case 4:
+                        addARoom();
+                        break;
+                    case 5:
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Please select a valid option.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and 5.");
             }
         }
     }
@@ -81,20 +85,52 @@ public class AdminMenu {
     }
 
     private static void addARoom() {
-        System.out.print("Enter room number: ");
-        String roomNumber = scanner.nextLine();
+        String roomNumber;
+        double price = 0.0;
+        RoomType roomType = null;
 
-        System.out.print("Enter room price: ");
-        double price = Double.parseDouble(scanner.nextLine());
+        // Looping to ensure correct input is provided
+        while (true) {
+            System.out.print("Enter room number: ");
+            try {
+                roomNumber = scanner.nextLine();
+                Integer.parseInt(roomNumber); // if number loop breaks
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number for the room number.");
+            }
+        }
 
-        System.out.println("Enter room type: 1 for SINGLE, 2 for DOUBLE");
-        RoomType roomType = RoomType.values()[Integer.parseInt(scanner.nextLine()) - 1];
 
-        IRoom room = new Room(roomNumber, price, roomType);
-        List<IRoom> rooms = new ArrayList<>();
-        rooms.add(room);
+        while (true) {
+            System.out.print("Enter room price: ");
+            try {
+                price = Double.parseDouble(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number for the price.");
+            }
+        }
+        while (true) {
+            System.out.println("Enter room type: 1 for SINGLE, 2 for DOUBLE");
+            try {
+                int roomTypeInput = Integer.parseInt(scanner.nextLine());
+                if (roomTypeInput == 1 || roomTypeInput == 2) {
+                    roomType = RoomType.values()[roomTypeInput - 1];
+                    break; // Exit loop if parsing is successful
+                } else {
+                    System.out.println("Invalid room type. Please enter 1 for SINGLE or 2 for DOUBLE.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter 1 for SINGLE or 2 for DOUBLE.");
+            }
+        }
 
-        adminResource.addRoom(rooms);
-        System.out.println("Room added successfully.");
+            IRoom room = new Room(roomNumber, price, roomType);
+            List<IRoom> rooms = new ArrayList<>();
+            rooms.add(room);
+
+            adminResource.addRoom(rooms);
+            System.out.println("Room added successfully.");
+        }
     }
-}

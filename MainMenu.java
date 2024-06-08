@@ -41,25 +41,29 @@ public class MainMenu {
         boolean exit = false;
         while (!exit) {
             printMainMenu();
-            int selection = Integer.parseInt(scanner.nextLine());
-            switch (selection) {
-                case 1:
-                    findAndReserveRoom();
-                    break;
-                case 2:
-                    seeMyReservations();
-                    break;
-                case 3:
-                    createAnAccount();
-                    break;
-                case 4:
-                    AdminMenu.displayAdminMenu();
-                    break;
-                case 5:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Please select a valid option.");
+            try {
+                int selection = Integer.parseInt(scanner.nextLine());
+                switch (selection) {
+                    case 1:
+                        findAndReserveRoom();
+                        break;
+                    case 2:
+                        seeMyReservations();
+                        break;
+                    case 3:
+                        createAnAccount();
+                        break;
+                    case 4:
+                        AdminMenu.displayAdminMenu();
+                        break;
+                    case 5:
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Please select a valid option.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and 5.");
             }
         }
     }
@@ -132,28 +136,64 @@ public class MainMenu {
     }
 
     private static void seeMyReservations() {
-        System.out.print("Enter your email: ");
-        String email = scanner.nextLine();
-        Collection<Reservation> reservations = hotelResource.getCustomersReservations(email);
-        if (reservations.isEmpty()) {
-            System.out.println("No reservations found.");
-        } else {
-            for (Reservation reservation : reservations) {
-                System.out.println(reservation);
+        String email;
+
+        while (true) {
+            try {
+                System.out.print("Enter your email: ");
+                email = scanner.nextLine();
+                validateEmail(email); // Validate email format
+                break; // Exit loop if email is valid
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
+        }
+
+        try {
+            Collection<Reservation> reservations = hotelResource.getCustomersReservations(email);
+            if (reservations == null || reservations.isEmpty()) {
+                System.out.println("No reservations found or customer does not exist.");
+            } else {
+                for (Reservation reservation : reservations) {
+                    System.out.println(reservation);
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Customer does not exist.");
         }
     }
 
+
     private static void createAnAccount() {
-        System.out.print("Enter your email: ");
-        String email = scanner.nextLine();
+        String email;
+        String firstName;
+        String lastName;
+
+        while (true) {
+            try {
+                System.out.print("Enter your email: ");
+                email = scanner.nextLine();
+                validateEmail(email); //Sends to validate method.
+                break; // Exit loop if email is valid
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         System.out.print("Enter your first name: ");
-        String firstName = scanner.nextLine();
+        firstName = scanner.nextLine();
         System.out.print("Enter your last name: ");
-        String lastName = scanner.nextLine();
+        lastName = scanner.nextLine();
 
         hotelResource.createACustomer(email, firstName, lastName);
         System.out.println("Account created successfully.");
+    }
+
+    private static void validateEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!email.matches(emailRegex)) {
+            throw new IllegalArgumentException("Invalid email format. Please enter a valid email (example: user@domain.com).");
+        }
     }
 }
 
