@@ -7,12 +7,12 @@ public class FreeRoom extends Room {
         super(roomNumber, 0.0, roomType);
     }
 
-    // Override toString() method for better description
+    // Overriding toString() method for better description
     @Override
     public String toString() {
         return "Free Room: " + getRoomNumber() +
                 ", Type: " + getRoomType() +
                 ", Price: $" + getRoomPrice() +
-                ", Free: " + (isFree() ? "Yes" : "No");
+                ", Available: " + (isFree() ? "Yes" : "No");
     }
 }

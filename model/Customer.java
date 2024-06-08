@@ -34,7 +34,7 @@ public class Customer {
         return email;
     }
 
-    // Override toString() method for better description
+    // Overriding toString() method for better description
     @Override
     public String toString() {
         return "Customer: " + firstName + " " + lastName + ", Email: " + email;

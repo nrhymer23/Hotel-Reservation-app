@@ -15,23 +15,23 @@ public class CustomerService {
     // Private constructor to enforce singleton pattern
     private CustomerService() {}
 
-    // Static method to get the single instance of CustomerService
+
     public static CustomerService getInstance() {
         return instance;
     }
 
-    // Method to add a customer
+    // add a customer
     public void addCustomer(String email, String firstName, String lastName) {
         Customer customer = new Customer(firstName, lastName, email);
         customerMap.put(email, customer);
     }
 
-    // Method to get a customer by email
+    // get a customer by email
     public Customer getCustomer(String customerEmail) {
         return customerMap.get(customerEmail);
     }
 
-    // Method to get all customers
+    // get all customers
     public Collection<Customer> getAllCustomers() {
         return customerMap.values();
     }

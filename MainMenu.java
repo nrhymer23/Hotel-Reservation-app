@@ -1,3 +1,24 @@
+/**
+ * Hotel Reservation Application
+ *
+ * This application allows users to find and reserve hotel rooms.
+ * It provides an interface for both regular users and administrators
+ * to manage reservations, rooms, and customer information.
+ *
+ * Main Menu:
+ * - Find and reserve a room
+ * - See my reservations
+ * - Create an account
+ * - Admin menu
+ * - Exit
+ *
+ * Author: Noel Rhymer
+ * Email: nrhymer23@gmail.com
+ * Date: 2024-06-01
+ */
+
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -32,7 +53,7 @@ public class MainMenu {
                     createAnAccount();
                     break;
                 case 4:
-                    adminMenu.AdminMenu.displayAdminMenu();
+                    AdminMenu.displayAdminMenu();
                     break;
                 case 5:
                     exit = true;
@@ -54,6 +75,17 @@ public class MainMenu {
     }
 
     private static void findAndReserveRoom() {
+        Collection<IRoom> rooms = hotelResource.getAllRooms();
+        if (rooms.isEmpty()) {
+            System.out.println("No rooms available.");
+            return;
+        }
+
+        System.out.println("Available Rooms:");
+        for (IRoom room : rooms) {
+            System.out.println(room);
+        }
+
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
         Customer customer = hotelResource.getCustomer(email);
@@ -124,3 +156,6 @@ public class MainMenu {
         System.out.println("Account created successfully.");
     }
 }
+
+
+//add test data

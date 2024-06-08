@@ -32,10 +32,10 @@ public class Room implements IRoom {
     @Override
     public boolean isFree() {
         // Implement logic to check if the room is free
-        return true; // For simplicity, assuming all rooms are free initially
+        return true; // All start Free
     }
 
-    // Override toString() method for better description
+    // Overriding toString() method for better description
     @Override
     public String toString() {
         return "Room: " + roomNumber +

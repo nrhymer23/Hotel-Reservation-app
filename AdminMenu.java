@@ -1,10 +1,5 @@
-package adminMenu;
-
 import api.AdminResource;
-import model.Customer;
-import model.IRoom;
-import model.RoomType;
-import model.Room;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -75,7 +70,14 @@ public class AdminMenu {
     }
 
     private static void seeAllReservations() {
-        adminResource.displayAllReservations();
+        Collection<Reservation> reservations = adminResource.getAllReservations();
+        if (reservations.isEmpty()) {
+            System.out.println("No reservations found.");
+        } else {
+            for (Reservation reservation : reservations) {
+                System.out.println(reservation);
+            }
+        }
     }
 
     private static void addARoom() {
