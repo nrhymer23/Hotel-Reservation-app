@@ -114,24 +114,16 @@ public class AdminMenu {
         double price = 0.0;
         RoomType roomType = null;
 
-        // Looping to ensure correct input is provided
+        // Looping to ensure correct input is provided and unique
         while (true) {
             System.out.print("Enter room number: ");
             roomNumber = scanner.nextLine();
-            try {
-                Integer.parseInt(roomNumber); // if number loop breaks
                 if (isRoomNumberUnique(roomNumber)) {
                     break;
-                } else {
-                    System.out.println("Room number already exists. Please enter a different number.");
                 }
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number for the room number.");
-            }
         }
 
-
+        //Looping to ensure valid price is inputed
         while (true) {
             System.out.print("Enter room price: ");
             try {
@@ -163,16 +155,27 @@ public class AdminMenu {
         adminResource.addRoom(rooms);
         System.out.println("Room added successfully.");
     }
-        //Checking to make sure room # is Unique
-    private static boolean isRoomNumberUnique(String roomNumber) {
-        Collection<IRoom> rooms = adminResource.getAllRooms();
-        for (IRoom room : rooms) {
-            if (room.getRoomNumber().equals(roomNumber)) {
+        //Checking to make sure room # is Unique and Correct
+        private static boolean isRoomNumberUnique(String roomNumber) {
+            // Check if the room number is a valid number
+            try {
+                Integer.parseInt(roomNumber);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Room number must be a valid number.");
                 return false;
             }
+
+            // Check if the room number is unique
+            Collection<IRoom> rooms = adminResource.getAllRooms();
+            for (IRoom room : rooms) {
+                if (room.getRoomNumber().equals(roomNumber)) {
+                    System.out.println("Room number already exists. Please enter a unique room number.");
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
-    }
+
 
     private static void addTestData() {
 
