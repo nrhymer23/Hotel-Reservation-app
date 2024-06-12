@@ -117,9 +117,14 @@ public class AdminMenu {
         // Looping to ensure correct input is provided
         while (true) {
             System.out.print("Enter room number: ");
+            roomNumber = scanner.nextLine();
             try {
-                roomNumber = scanner.nextLine();
                 Integer.parseInt(roomNumber); // if number loop breaks
+                if (isRoomNumberUnique(roomNumber)) {
+                    break;
+                } else {
+                    System.out.println("Room number already exists. Please enter a different number.");
+                }
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number for the room number.");
@@ -158,6 +163,17 @@ public class AdminMenu {
         adminResource.addRoom(rooms);
         System.out.println("Room added successfully.");
     }
+        //Checking to make sure room # is Unique
+    private static boolean isRoomNumberUnique(String roomNumber) {
+        Collection<IRoom> rooms = adminResource.getAllRooms();
+        for (IRoom room : rooms) {
+            if (room.getRoomNumber().equals(roomNumber)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static void addTestData() {
 
         // Test Customers
