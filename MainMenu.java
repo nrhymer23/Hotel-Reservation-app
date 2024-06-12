@@ -5,16 +5,13 @@
  * It provides an interface for both regular users and administrators
  * to manage reservations, rooms, and customer information.
  *
- * Main Menu:
- * - Find and reserve a room
- * - See my reservations
- * - Create an account
- * - Admin menu
- * - Exit
+ * @see AdminMenu
  *
- * Author: Noel Rhymer
+ * @Author: Noel Rhymer
  * Email: nrhymer23@gmail.com
  * Date: 2024-06-01
+ *
+ * @Version 3.0
  */
 
 
@@ -195,6 +192,12 @@ public class MainMenu {
             throw new IllegalArgumentException("Invalid email format. Please enter a valid email (example: user@domain.com).");
         }
     }
+
+    private static void addTestData() {
+
+        
+    }
+
 }
 
 

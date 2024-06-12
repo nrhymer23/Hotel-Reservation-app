@@ -1,6 +1,25 @@
+/**
+ * Hotel Reservation Application
+ *
+ * This application allows users to find and reserve hotel rooms.
+ * It provides an interface for both regular users and administrators
+ * to manage reservations, rooms, and customer information.
+ *
+ * @see MainMenu
+ *
+ * @Author: Noel Rhymer
+ * Email: nrhymer23@gmail.com
+ * Date: 2024-06-01
+ *
+ * @Version 3.0
+ *
+ */
+
 import api.AdminResource;
 import model.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +28,8 @@ import java.util.Scanner;
 public class AdminMenu {
     private static final AdminResource adminResource = AdminResource.getInstance();
     private static final Scanner scanner = new Scanner(System.in);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 
     public static void displayAdminMenu() {
         boolean exit = false;
@@ -30,13 +51,15 @@ public class AdminMenu {
                         addARoom();
                         break;
                     case 5:
+                       // addTestData();
+                    case 6:
                         exit = true;
                         break;
                     default:
                         System.out.println("Please select a valid option.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                System.out.println("Invalid input. Please enter a number between 1 and 6.");
             }
         }
     }
@@ -47,7 +70,8 @@ public class AdminMenu {
         System.out.println("2. See all Rooms");
         System.out.println("3. See all Reservations");
         System.out.println("4. Add a Room");
-        System.out.println("5. Back to Main Menu");
+        System.out.println("5. Add Test Data");
+        System.out.println("6. Back to Main Menu");
         System.out.print("Please select an option: ");
     }
 
