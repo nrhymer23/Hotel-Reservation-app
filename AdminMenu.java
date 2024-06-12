@@ -16,6 +16,7 @@
  */
 
 import api.AdminResource;
+import api.HotelResource;
 import model.*;
 
 import java.text.ParseException;
@@ -51,7 +52,7 @@ public class AdminMenu {
                         addARoom();
                         break;
                     case 5:
-                       // addTestData();
+                        addTestData();
                     case 6:
                         exit = true;
                         break;
@@ -150,11 +151,61 @@ public class AdminMenu {
             }
         }
 
-            IRoom room = new Room(roomNumber, price, roomType);
-            List<IRoom> rooms = new ArrayList<>();
-            rooms.add(room);
+        IRoom room = new Room(roomNumber, price, roomType);
+        List<IRoom> rooms = new ArrayList<>();
+        rooms.add(room);
 
-            adminResource.addRoom(rooms);
-            System.out.println("Room added successfully.");
+        adminResource.addRoom(rooms);
+        System.out.println("Room added successfully.");
+    }
+    private static void addTestData() {
+
+        // Test Customers
+        HotelResource.createACustomer("Susanj@gmail.com","susan","Johnson");
+        HotelResource.createACustomer("Johnt@yahoo.com","John","Turner");
+        HotelResource.createACustomer("AnthonyS@gmail.com","Anthony","Smith");
+        HotelResource.createACustomer("martinr@gmail.com","Martin","Rhy");
+        HotelResource.createACustomer("Grantb@gmail.com","Grant ","Black");
+        HotelResource.createACustomer("Torreya@gmail.com","Torrey","Armstrong");
+        HotelResource.createACustomer("JessicaF@gmail.com","Jessica","Fair");
+
+        // Test Rooms
+        IRoom room1 = new Room("101", 100, RoomType.SINGLE);
+        IRoom room2 = new Room("102", 200, RoomType.DOUBLE);
+        IRoom room5 = new Room("201",150,RoomType.SINGLE);
+        IRoom room6 = new Room("202",200,RoomType.DOUBLE);
+        IRoom room7 = new Room("301",150,RoomType.SINGLE);
+        IRoom room8 = new Room("302",200,RoomType.DOUBLE);
+        IRoom room9 = new Room("401",200,RoomType.SINGLE);
+        IRoom room10 = new Room("402",300,RoomType.DOUBLE);
+        IRoom room3 = new FreeRoom("103", RoomType.SINGLE);
+        IRoom room4 = new FreeRoom("203",RoomType.DOUBLE);
+
+        List<IRoom> rooms = new ArrayList<>();
+        rooms.add(room1);
+        rooms.add(room2);
+        rooms.add(room3);
+        rooms.add(room4);
+        rooms.add(room5);
+        rooms.add(room6);
+        rooms.add(room7);
+        rooms.add(room8);
+        rooms.add(room9);
+        rooms.add(room10);
+        adminResource.addRoom(rooms);
+
+
+        // Test Reservations
+        try {
+            HotelResource.bookARoom("Susanj@gmail.com", room1, dateFormat.parse("2023-07-01"), dateFormat.parse("2023-07-05"));
+            HotelResource.bookARoom("Grantb@gmail.com", room5, dateFormat.parse("2023-07-03"), dateFormat.parse("2023-07-06"));
+            HotelResource.bookARoom("martinr@gmail.com", room9, dateFormat.parse("2023-07-04"), dateFormat.parse("2023-07-07"));
+        } catch (ParseException e) {
+            System.out.println( e.getMessage());
         }
+
+        System.out.println("Test data added successfully.");
+
+    }
+
     }

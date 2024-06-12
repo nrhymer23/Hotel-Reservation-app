@@ -12,8 +12,8 @@ import java.util.Date;
 
 public class HotelResource {
     private static HotelResource instance = new HotelResource();
-    private CustomerService customerService = CustomerService.getInstance();
-    private ReservationService reservationService = ReservationService.getInstance();
+    private static CustomerService customerService = CustomerService.getInstance();
+    private static ReservationService reservationService = ReservationService.getInstance();
 
     // Private constructor to enforce singleton pattern
     private HotelResource() {}
@@ -27,7 +27,7 @@ public class HotelResource {
         return customerService.getCustomer(email);
     }
 
-    public void createACustomer(String email, String firstName, String lastName) {
+    public static void createACustomer(String email, String firstName, String lastName) {
         customerService.addCustomer(email, firstName, lastName);
     }
 
@@ -35,7 +35,7 @@ public class HotelResource {
         return reservationService.getARoom(roomNumber);
     }
 
-    public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate) {
+    public static Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate) {
         Customer customer = customerService.getCustomer(customerEmail);
         if (customer == null) {
             throw new IllegalArgumentException("Customer does not exist.");

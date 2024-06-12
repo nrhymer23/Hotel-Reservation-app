@@ -23,6 +23,7 @@ import api.HotelResource;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import model.RoomType;
 
 import java.util.Collection;
 import java.util.Date;
@@ -193,16 +194,7 @@ public class MainMenu {
         }
     }
 
-    private static void addTestData() {
 
-        // Test Customers
-
-        // Test Rooms
-
-        // Test Reservations
-
-
-    }
 
 }
 
