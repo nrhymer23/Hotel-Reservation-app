@@ -195,7 +195,13 @@ public class MainMenu {
 
     private static void addTestData() {
 
-        
+        // Test Customers
+
+        // Test Rooms
+
+        // Test Reservations
+
+
     }
 
 }
