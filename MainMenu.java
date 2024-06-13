@@ -26,6 +26,7 @@ import model.IRoom;
 import model.Reservation;
 import model.RoomType;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Scanner;
@@ -109,15 +110,36 @@ public class MainMenu {
             //Checking for rooms based on the date range
         Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
         if (availableRooms.isEmpty()) {
-            System.out.println("No rooms available.");
-            return;
-        }
+            System.out.println("No rooms available for this Date Range.");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(checkInDate);
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+            Date newCheckInDate = calendar.getTime();
 
-        System.out.println("Available Rooms:");
-        for (IRoom room : availableRooms) {
-            System.out.println(room);
-        }
+            calendar.setTime(checkOutDate);
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+            Date newCheckOutDate = calendar.getTime();
 
+            //Checking available rooms for Room 7 Days later
+            availableRooms = hotelResource.findARoom(newCheckOutDate, newCheckOutDate);
+            if (availableRooms.isEmpty()) {
+                System.out.println("No rooms available");
+            } else {
+                SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println("Select a Available Room to Book On Our Recommended Dates " + newDateFormat.format(newCheckInDate) + " to " + newDateFormat.format(newCheckOutDate));
+
+                for (IRoom room : availableRooms) {
+                    System.out.println(room);
+                }
+                checkInDate = newCheckInDate;
+                checkOutDate = newCheckOutDate;
+            }
+        }else{
+            System.out.println("Available Rooms:");
+            for (IRoom room : availableRooms) {
+                System.out.println(room);
+            }
+        }
 
         /*
         Reservation reservation = HotelResource.bookARoom(email, room, checkInDate, checkOutDate);
@@ -161,7 +183,7 @@ public class MainMenu {
                     for (IRoom availableRoom : availableRooms) {
                         System.out.println(availableRoom);
                     }
-                    System.out.println("PLease select an available Room");
+                    System.out.println("Please select an available Room");
                 }
             }
         }
