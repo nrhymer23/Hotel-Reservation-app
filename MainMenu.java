@@ -16,6 +16,7 @@
 
 
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -56,6 +57,7 @@ public class MainMenu {
                         break;
                     case 5:
                         exit = true;
+                        System.out.println("Thank you, Have a Great Day");
                         break;
                     default:
                         System.out.println("Please select a valid option.");
@@ -124,7 +126,9 @@ public class MainMenu {
             }
         }
 
-        Reservation reservation = hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
+
+        /*
+        Reservation reservation = HotelResource.bookARoom(email, room, checkInDate, checkOutDate);
         if (reservation != null) {
             System.out.println("Room reserved successfully.");
             System.out.println(reservation);
@@ -132,6 +136,21 @@ public class MainMenu {
             System.out.println("Room could not be reserved.");
         }
     }
+
+
+         */
+
+
+       try {
+            Reservation reservation = hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
+            System.out.println("Room reserved successfully.");
+            System.out.println(reservation);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
     private static void seeMyReservations() {
         String email;

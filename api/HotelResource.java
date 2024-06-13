@@ -43,6 +43,7 @@ public class HotelResource {
         return reservationService.reserveARoom(customer, room, checkInDate, checkOutDate);
     }
 
+
     public Collection<Reservation> getCustomersReservations(String customerEmail) {
         Customer customer = customerService.getCustomer(customerEmail);
         if (customer == null) {

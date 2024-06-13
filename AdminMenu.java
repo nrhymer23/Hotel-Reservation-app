@@ -216,9 +216,9 @@ public class AdminMenu {
 
         // Test Reservations
         try {
-            HotelResource.bookARoom("Susanj@gmail.com", room1, dateFormat.parse("2023-07-01"), dateFormat.parse("2023-07-05"));
-            HotelResource.bookARoom("Grantb@gmail.com", room5, dateFormat.parse("2023-07-03"), dateFormat.parse("2023-07-06"));
-            HotelResource.bookARoom("martinr@gmail.com", room9, dateFormat.parse("2023-07-04"), dateFormat.parse("2023-07-07"));
+            HotelResource.bookARoom("Susanj@gmail.com", room1, dateFormat.parse("2024-07-01"), dateFormat.parse("2024-07-05"));
+            HotelResource.bookARoom("Grantb@gmail.com", room5, dateFormat.parse("2024-07-03"), dateFormat.parse("2024-07-06"));
+            HotelResource.bookARoom("martinr@gmail.com", room9, dateFormat.parse("2024-07-04"), dateFormat.parse("2024-07-07"));
         } catch (ParseException e) {
             System.out.println( e.getMessage());
         }

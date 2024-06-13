@@ -27,7 +27,24 @@ public class ReservationService {
         return roomMap.get(roomId);
     }
 
+    // Method to check if a room is available for the given dates
+    public boolean isRoomAvailable(IRoom room, Date checkInDate, Date checkOutDate) {
+        Collection<Reservation> reservations = getAllReservations();
+        for (Reservation reservation : reservations) {
+            if (reservation.getRoom().equals(room)) {
+                if (checkInDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())) {
+                    return false; // Means Duplicate detected
+                }
+            }
+        }
+        return true;
+    }
+
+
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
+        if (!isRoomAvailable(room, checkInDate, checkOutDate)) {
+            throw new IllegalArgumentException("Room is not available for the given dates.");
+        }
         Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
         Collection<Reservation> customerReservations = reservationMap.getOrDefault(customer.getEmail(), new ArrayList<>());
         customerReservations.add(reservation);
