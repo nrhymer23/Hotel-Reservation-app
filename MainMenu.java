@@ -79,26 +79,6 @@ public class MainMenu {
     }
 
     private static void findAndReserveRoom() {
-        Collection<IRoom> rooms = hotelResource.getAllRooms();
-        if (rooms.isEmpty()) {
-            System.out.println("No rooms available.");
-            return;
-        }
-
-        System.out.println("Available Rooms:");
-        for (IRoom room : rooms) {
-            System.out.println(room);
-        }
-
-        System.out.print("Enter your email: ");
-        String email = scanner.nextLine();
-        Customer customer = hotelResource.getCustomer(email);
-        if (customer == null) {
-            System.out.println("Customer not found. Please create an account first.");
-            return;
-        }
-
-
         Date checkInDate = null;
         Date checkOutDate = null;
         while (checkInDate == null) {
@@ -119,6 +99,25 @@ public class MainMenu {
             }
         }
 
+        System.out.print("Enter your email: ");
+        String email = scanner.nextLine();
+        Customer customer = hotelResource.getCustomer(email);
+        if (customer == null) {
+            System.out.println("Customer not found. Please create an account first.");
+            return;
+        }
+            //Checking for rooms based on the date range
+        Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
+        if (availableRooms.isEmpty()) {
+            System.out.println("No rooms available.");
+            return;
+        }
+
+        System.out.println("Available Rooms:");
+        for (IRoom room : availableRooms) {
+            System.out.println(room);
+        }
+
 
         /*
         Reservation reservation = HotelResource.bookARoom(email, room, checkInDate, checkOutDate);
@@ -131,7 +130,7 @@ public class MainMenu {
     }
          */
 
-//changed to loop to check if room is available
+        //changed to loop to check if room is available
         boolean reservationMade = false;
         while (!reservationMade) {
             System.out.print("Enter room number: ");
@@ -153,7 +152,7 @@ public class MainMenu {
                 System.out.println(e.getMessage());
 
                 //Recommends Alternative available rooms (FreeRooms)
-                Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
+               availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
                 if (availableRooms.isEmpty()) {
                     System.out.println("No alternative rooms available for the given dates.");
                     reservationMade = true; //break
