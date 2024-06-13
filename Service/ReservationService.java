@@ -40,6 +40,18 @@ public class ReservationService {
         return true;
     }
 
+    // Method to find available rooms for given dates if room not availble
+    public Collection<IRoom> findAvailableRooms(Date checkInDate, Date checkOutDate) {
+        Collection<IRoom> availableRooms = new ArrayList<>(roomMap.values());
+        Collection<Reservation> reservations = getAllReservations();
+
+        for (Reservation reservation : reservations) {
+            if (checkInDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())) {
+                availableRooms.remove(reservation.getRoom());
+            }
+        }
+        return availableRooms;
+    }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
         if (!isRoomAvailable(room, checkInDate, checkOutDate)) {

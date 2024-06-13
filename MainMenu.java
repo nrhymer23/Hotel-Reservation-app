@@ -98,13 +98,6 @@ public class MainMenu {
             return;
         }
 
-        System.out.print("Enter room number: ");
-        String roomNumber = scanner.nextLine();
-        IRoom room = hotelResource.getRoom(roomNumber);
-        if (room == null) {
-            System.out.println("Room not found.");
-            return;
-        }
 
         Date checkInDate = null;
         Date checkOutDate = null;
@@ -136,17 +129,42 @@ public class MainMenu {
             System.out.println("Room could not be reserved.");
         }
     }
-
-
          */
 
+//changed to loop to check if room is available
+        boolean reservationMade = false;
+        while (!reservationMade) {
+            System.out.print("Enter room number: ");
+            String roomNumber = scanner.nextLine();
+            IRoom room = hotelResource.getRoom(roomNumber);
+            if (room == null) {
+                System.out.println("Room not found.");
+                continue;
+            }
 
-       try {
-            Reservation reservation = hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
-            System.out.println("Room reserved successfully.");
-            System.out.println(reservation);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+
+            try {
+                Reservation reservation = hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
+                System.out.println("Room reserved successfully.");
+                System.out.println(reservation);
+                reservationMade = true;
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+                //Recommends Alternative available rooms (FreeRooms)
+                Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
+                if (availableRooms.isEmpty()) {
+                    System.out.println("No alternative rooms available for the given dates.");
+                    reservationMade = true; //break
+                } else {
+                    System.out.println("Alternative available rooms for the given dates:");
+                    for (IRoom availableRoom : availableRooms) {
+                        System.out.println(availableRoom);
+                    }
+                    System.out.println("PLease select an available Room");
+                }
+            }
         }
     }
 
